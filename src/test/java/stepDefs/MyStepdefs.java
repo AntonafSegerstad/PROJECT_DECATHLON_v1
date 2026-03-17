@@ -8,10 +8,20 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openqa.selenium.Keys.*;
 
 @CucumberContextConfiguration
 @SpringBootTest(
@@ -20,15 +30,17 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 public class MyStepdefs {
     private WebDriver driver;
+    private WebDriverWait wait;
 
     @LocalServerPort
-    public int port = 8080;
-    public String baseUrl;
+    private int port;
+    private String baseUrl;
 
     @Before
-    void setUp(){
+    public void setUp(){
         driver = new ChromeDriver();
-        baseUrl = "localhost:"+port;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        baseUrl = "http://localhost:" + port;
         driver.get(baseUrl);
     }
 
@@ -39,17 +51,33 @@ public class MyStepdefs {
 
     @Given("the user is on webpage {string}")
     public void theUserIsOnWebpage(String localhost) {
-        setUp();
+        String getUrl = driver.getCurrentUrl();
+        assertEquals("http://localhost:8080/", getUrl);
     }
 
+    // TINA - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
     @And("the name field in Add competitor is selected")
     public void theNameFieldInAddCompetitorIsSelected() {
+        WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.cssSelector("[data-testid='competitorNameInput']")));
+        nameField.click();
 
+        WebElement focusedField = driver.switchTo().activeElement();
+
+        assertEquals(nameField, focusedField);
     }
 
     @When("a {string} has been entered into the field")
-    public void aHasBeenEnteredIntoTheField(String arg0) {
-
+    public void aHasBeenEnteredIntoTheField(String name) {
+        name = "Chuck Norris";
+        driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"))
+                .sendKeys(name);
+        WebElement addBtn = driver.findElement(By.cssSelector("[data-testid='addCompetitorBtn']"));
+        addBtn.click();
+        addBtn.sendKeys(DOWN);
+        WebElement table = driver.findElement(By.cssSelector("[data-testid='standingsTable']"));
+        String tableText = table.getText();
+        assertTrue(tableText.contains(name));
     }
 
     @And("user clicks the {string} button")
@@ -91,4 +119,14 @@ public class MyStepdefs {
     public void availableToDownloadResultFile() {
         tearDown();
     }
+
+    // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
+
+    // KIM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
+
+    // OSKAR - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
+
+    // PHYLLIS - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
+
+    // SAM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 }
