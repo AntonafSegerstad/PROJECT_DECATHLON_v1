@@ -42,6 +42,7 @@ public class MyStepdefs {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         baseUrl = "http://localhost:" + port;
         driver.get(baseUrl);
+
     }
 
     @After
