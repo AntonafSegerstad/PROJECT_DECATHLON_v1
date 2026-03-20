@@ -3,6 +3,7 @@ package stepDefs;
 import com.example.decathlon.Application;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -55,6 +56,7 @@ public class MyStepdefs {
         assertEquals("http://localhost:8080/", getUrl);
     }
 
+
     // TINA - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
     @And("the name field in Add competitor is selected")
     public void theNameFieldInAddCompetitorIsSelected() {
@@ -80,10 +82,6 @@ public class MyStepdefs {
         assertTrue(tableText.contains(name));
     }
 
-    @And("user clicks the {string} button")
-    public void userClicksTheButton(String arg0) {
-
-    }
 
     @Then("the name should be visible in the Standings section")
     public void theNameShouldBeVisibleInTheStandingsSection() {
@@ -120,13 +118,66 @@ public class MyStepdefs {
         tearDown();
     }
 
+
+    // PHYLLIS - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
+
+    @Given("the user is on the calculator page")
+    public void theUserIsOnTheCalculatorPage() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("{string} is selected from the event dropdown")
+    public void isSelectedFromTheEventDropdown(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("the result {string} is entered in the result field")
+    public void theResultIsEnteredInTheResultField(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @When("user clicks the {string} button")
+    public void userClicksTheButton(String buttonText) {
+        // Write code here that turns the phrase above into concrete actions
+        WebElement btn = driver.findElement(By.xpath
+                ("//button[contains(text(), '" + buttonText + "')]"));
+        btn.click();
+    }
+
+    @Then("the message area should show {string}")
+    public void theMessageAreaShouldShow(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("{string} is entered in the result name field")
+    public void isEnteredInTheResultNameField(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("a non-numeric value {string} is entered in the result field")
+    public void aNonNumericValueIsEnteredInTheResulField(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Then("an error message {string} should be displayed")
+    public void anErrorMessageShouldBeDisplayed(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
 
     // KIM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 
     // OSKAR - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
 
-    // PHYLLIS - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
+   
 
     // SAM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 }
