@@ -2,6 +2,8 @@ Feature: In the web application, key tasks like adding competitors,
   entering results, viewing standings, saving and exporting results
   can be achieved with minimal steps.
 
+  # TINA - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   Scenario: Adding a competitor
     Given the user is on webpage "localhost"
     And the name field in Add competitor is selected
@@ -21,4 +23,18 @@ Feature: In the web application, key tasks like adding competitors,
     When user has entered a "name" and "result"
     And user clicks the "Export CSV" button
     Then the result file is exported
-    And available to download
+    And available to download result file
+
+  # ANTON - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # OSKAR - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # PHYLLIS - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # SAM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
