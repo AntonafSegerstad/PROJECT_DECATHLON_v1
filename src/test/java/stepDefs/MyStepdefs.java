@@ -40,7 +40,7 @@ public class MyStepdefs {
     @Before
     public void setUp(){
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         baseUrl = "http://localhost:" + port;
         driver.get(baseUrl);
 
