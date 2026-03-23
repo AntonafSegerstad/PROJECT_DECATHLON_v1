@@ -27,21 +27,21 @@ Feature: In the web application, key tasks like adding competitors,
 
   # ANTON - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  Scenario Outline: Invalid first name inputs
+  Scenario Outline: Unreasonable name inputs
     Given the user is on webpage "localhost:8080"
-    And a "name" has been entered into the Name field
-    And a "<result>" has been entered into the Result field
-    When user clicks the "Save score" button
-    Then the name and score is visible in Standings
+    And an unreasonable "<name>" has been entered into the name field
+    And user clicks the "add competitor" button
+    Then a user friendly message of rejection is shown
 
     Examples:
-      | result     |
-      |            |
-      |            |
-      |            |
-      |            |
-      |            |
-      |            |
+      | name |
+      |     |
+      |    Anton|
+      |123456789|
+      |!"#%&/())|
+      |  anton€€"  |
+
+
 
 
   # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -

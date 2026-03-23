@@ -48,7 +48,7 @@ public class MyStepdefs {
 
     @After
     void tearDown(){
-        driver.quit();
+        //driver.quit();
     }
 
     @Given("the user is on webpage {string}")
@@ -71,7 +71,7 @@ public class MyStepdefs {
     }
 
     @When("a {string} has been entered into the field")
-    public void aHasBeenEnteredIntoTheField(String name) {
+    public void aNameHasBeenEnteredIntoTheField(String name) {
         name = "Chuck Norris";
         driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"))
                 .sendKeys(name);
@@ -172,8 +172,29 @@ public class MyStepdefs {
         throw new PendingException();
     }
 
+
+
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
 
+    @Then("a user friendly message of rejection is shown")
+    public void aUserFriendlyMessageOfRejectionIsShown() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("an unreasonable {string} has been entered into the name field")
+    public void anUnreasonableHasBeenEnteredIntoTheNameField(String name) {
+
+        driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"))
+                .sendKeys(name);
+        WebElement addBtn = driver.findElement(By.cssSelector("[data-testid='addCompetitorBtn']"));
+        addBtn.click();
+        addBtn.sendKeys(DOWN);
+        WebElement table = driver.findElement(By.cssSelector("[data-testid='standingsTable']"));
+        String tableText = table.getText();
+        assertTrue(tableText.contains(name));
+
+    }
     // KIM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 
     // OSKAR - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
