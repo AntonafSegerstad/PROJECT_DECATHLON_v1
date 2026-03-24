@@ -3,7 +3,6 @@ package stepDefs;
 import com.example.decathlon.Application;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -22,7 +21,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.openqa.selenium.Keys.*;
+import static org.openqa.selenium.Keys.DOWN;
 
 @CucumberContextConfiguration
 @SpringBootTest(
@@ -58,16 +57,12 @@ public class MyStepdefs {
     }
 
 
-    // TINA - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
-    @And("the name field in Add competitor is selected")
-    public void theNameFieldInAddCompetitorIsSelected() {
-        WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("[data-testid='competitorNameInput']")));
-        nameField.click();
-
-        WebElement focusedField = driver.switchTo().activeElement();
-
-        assertEquals(nameField, focusedField);
+    @When("user clicks the {string} button")
+    public void userClicksTheButton(String buttonText) {
+        // Write code here that turns the phrase above into concrete actions
+        WebElement btn = driver.findElement(By.xpath
+                ("//button[contains(text(), '" + buttonText + "')]"));
+        btn.click();
     }
 
     @When("a {string} has been entered into the field")
@@ -83,6 +78,17 @@ public class MyStepdefs {
         assertTrue(tableText.contains(name));
     }
 
+    // TINA - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
+    @And("the name field in Add competitor is selected")
+    public void theNameFieldInAddCompetitorIsSelected() {
+        WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.cssSelector("[data-testid='competitorNameInput']")));
+        nameField.click();
+
+        WebElement focusedField = driver.switchTo().activeElement();
+
+        assertEquals(nameField, focusedField);
+    }
 
     @Then("the name should be visible in the Standings section")
     public void theNameShouldBeVisibleInTheStandingsSection() {
@@ -125,51 +131,39 @@ public class MyStepdefs {
     @Given("the user is on the calculator page")
     public void theUserIsOnTheCalculatorPage() {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 
     @And("{string} is selected from the event dropdown")
     public void isSelectedFromTheEventDropdown(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 
     @And("the result {string} is entered in the result field")
     public void theResultIsEnteredInTheResultField(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
 
-    @When("user clicks the {string} button")
-    public void userClicksTheButton(String buttonText) {
-        // Write code here that turns the phrase above into concrete actions
-        WebElement btn = driver.findElement(By.xpath
-                ("//button[contains(text(), '" + buttonText + "')]"));
-        btn.click();
     }
 
     @Then("the message area should show {string}")
     public void theMessageAreaShouldShow(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 
     @And("{string} is entered in the result name field")
     public void isEnteredInTheResultNameField(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
     }
 
     @And("a non-numeric value {string} is entered in the result field")
     public void aNonNumericValueIsEnteredInTheResulField(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
     }
 
     @Then("an error message {string} should be displayed")
     public void anErrorMessageShouldBeDisplayed(String arg0) {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
