@@ -2,6 +2,8 @@ Feature: In the web application, key tasks like adding competitors,
   entering results, viewing standings, saving and exporting results
   can be achieved with minimal steps.
 
+  # TINA - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   Scenario: Adding a competitor
     Given the user is on webpage "localhost"
     And the name field in Add competitor is selected
@@ -22,3 +24,45 @@ Feature: In the web application, key tasks like adding competitors,
     And user clicks the "Export CSV" button
     Then the result file is exported
     And available to download result file
+
+  # ANTON - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  Scenario Outline: Unreasonable name inputs
+    Given the user is on webpage "localhost:8080"
+    And an unreasonable "<name>" has been entered into the name field
+    And user clicks the "add competitor" button
+    Then a user friendly message of rejection is shown
+
+    Examples:
+      | name |
+      |     |
+      |    Anton|
+      |123456789|
+      |!"#%&/())|
+      |  anton€€"  |
+
+
+
+
+  # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # OSKAR - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # PHYLLIS - - - - - - - - - - - - - - - - - - - - - - - - - -
+Scenario: Calculating points for a specific event
+  Given the user is on the calculator page
+  And "100m (s)" is selected from the event dropdown
+  And the result "10.55" is entered in the result field
+  When user clicks the "Save score" button
+  Then the message area should show "Saved"
+
+  Scenario: Handling failed score entry
+  Given the user is on the calculator page
+  And "Anna" is entered in the result name field
+  And a non-numeric value "abc" is entered in the resul field
+  When user clicks the "Save score" button
+  Then an error message "Score failed" should be displayed
+
+  # SAM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
