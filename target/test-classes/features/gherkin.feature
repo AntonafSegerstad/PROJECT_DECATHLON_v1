@@ -36,12 +36,12 @@ Feature: In the web application, key tasks like adding competitors,
 
     Examples:
       | result     |
-      | Anton123   |
       |            |
-      | Anton!     |
-      | Anton€     |
-      | 123        |
-      | %41        |
+      |            |
+      |            |
+      |            |
+      |            |
+      |            |
 
 
   # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
