@@ -27,17 +27,21 @@ Feature: In the web application, key tasks like adding competitors,
 
   # ANTON - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  Scenario Outline: Unreasonable name inputs
+  Scenario Outline: Invalid first name inputs
     Given the user is on webpage "localhost:8080"
-    And an unreasonable "<name>" has been entered into the name field
-    And user clicks the "add competitor" button
-    Then a user friendly message of rejection is shown
+    And a "name" has been entered into the Name field
+    And a "<result>" has been entered into the Result field
+    When user clicks the "Save score" button
+    Then the name and score is visible in Standings
 
     Examples:
-      | name     |
-      ||
-      ||
-
+      | result     |
+      |            |
+      |            |
+      |            |
+      |            |
+      |            |
+      |            |
 
 
   # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,7 +61,7 @@ Scenario: Calculating points for a specific event
   Scenario: Handling failed score entry
   Given the user is on the calculator page
   And "Anna" is entered in the result name field
-  And a non-numeric value "abc" is entered in the resul field
+  And a non-numeric value "abc" is entered in the result field
   When user clicks the "Save score" button
   Then an error message "Score failed" should be displayed
 
