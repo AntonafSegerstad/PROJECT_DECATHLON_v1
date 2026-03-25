@@ -27,22 +27,25 @@ Feature: In the web application, key tasks like adding competitors,
 
   # ANTON - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  Scenario Outline: Invalid first name inputs
-    Given the user is on webpage "localhost:8080"
-    And a "name" has been entered into the Name field
-    And a "<result>" has been entered into the Result field
-    When user clicks the "Save score" button
-    Then the name and score is visible in Standings
+  Scenario Outline: Add Decathlon scores for all events
+    Given I have entered competitor name "Test Test"
+    When I select "<event>" from the event dropdown
+    And I enter "<result>" as result
+    And I submit the score
+    Then the points should be "<points>"
 
     Examples:
-      | result     |
-      |            |
-      |            |
-      |            |
-      |            |
-      |            |
-      |            |
-
+      | event            | result | points |
+      | 100m             | 10.00  | 1096   |
+      | Long Jump        | 800    | 1061   |
+      | Shot Put         | 20.00  | 1100   |
+      | High Jump        | 200    | 803    |
+      | 400m             | 40.00  | 1333   |
+      | 110m Hurdles     | 14.00  | 975    |
+      | Discus Throw     | 70.00  | 1295   |
+      | Pole Vault       | 500    | 910    |
+      | Javelin Throw    | 90.00  | 1198   |
+      | 1500m            | 200    | 1268   |
 
   # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
