@@ -123,21 +123,28 @@ public class MyStepdefs {
 
     @Given("the user is on the calculator page")
     public void theUserIsOnTheCalculatorPage() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        //navigerar till den lokala webbsidan
+        driver.get(baseUrl);
+        //Väntar tills h1-rubriken syns så vi vet att sidan är laddad
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
     }
 
     @And("{string} is selected from the event dropdown")
-    public void isSelectedFromTheEventDropdown(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void isSelectedFromTheEventDropdown(String eventLabel) {
+        // id="event" i html dropdown
+        WebElement dropdown = driver.findElement(By.id("event"));
+        //Jag skickar in 100m (s) till fältet
+        dropdown.sendKeys(eventLabel);
     }
 
     @And("the result {string} is entered in the result field")
-    public void theResultIsEnteredInTheResultField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void theResultIsEnteredInTheResultField(String name) {
+        // app.js använder id="name2" för namnet i "Enter result"-sektionen
+        WebElement nameField = driver.findElement(By.id("name2"));
+        nameField.clear();
+        nameField.sendKeys(name);
     }
+
 
     @When("user clicks the {string} button")
     public void userClicksTheButton(String buttonText) {
