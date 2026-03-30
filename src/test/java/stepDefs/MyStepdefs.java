@@ -3,20 +3,24 @@ package stepDefs;
 import com.example.decathlon.Application;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+import java.io.File;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +41,7 @@ public class MyStepdefs {
     private String baseUrl;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         baseUrl = "http://localhost:" + port;
@@ -46,8 +50,8 @@ public class MyStepdefs {
     }
 
     @After
-    void tearDown(){
-        //driver.quit();
+    void tearDown() {
+        driver.quit();
     }
 
     @Given("the user is on webpage {string}")
@@ -57,73 +61,84 @@ public class MyStepdefs {
     }
 
 
-    @When("user clicks the {string} button")
-    public void userClicksTheButton(String buttonText) {
-        // Write code here that turns the phrase above into concrete actions
-        WebElement btn = driver.findElement(By.xpath
-                ("//button[contains(text(), '" + buttonText + "')]"));
-        btn.click();
-    }
-
-    @When("a {string} has been entered into the field")
-    public void aNameHasBeenEnteredIntoTheField(String name) {
-        name = "Chuck Norris";
-        driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"))
-                .sendKeys(name);
-        WebElement addBtn = driver.findElement(By.cssSelector("[data-testid='addCompetitorBtn']"));
-        addBtn.click();
-        addBtn.sendKeys(DOWN);
-        WebElement table = driver.findElement(By.cssSelector("[data-testid='standingsTable']"));
-        String tableText = table.getText();
-        assertTrue(tableText.contains(name));
-    }
-
     // TINA - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
+
+    @When("the valid name {string} has been entered into the name field")
+    public void aNameHasBeenEnteredIntoTheField(String name) {
+        WebElement nameField = driver.findElement(By.cssSelector("#name"));
+        nameField.clear();
+        nameField.sendKeys(name);
+    }
+
+    @When("user clicks the add competitor button")
+    public void userClicksTheAddCompetitorButton() {
+        WebElement addButton = wait.until(
+                ExpectedConditions.elementToBeClickable(By.cssSelector("#add"))
+        );
+        addButton.click();
+    }
+
+    @Then("the name {string} should be visible in the Standings section")
+    public void theShouldBeVisibleInTheStandingsSection(String name) {
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(
+                        By.cssSelector("#standings"),
+                        name
+                )
+        );
+        String tableText = driver.findElement(By.cssSelector("#standings")).getText();
+        Assertions.assertTrue(tableText.contains(name));
+    }
+
     @And("the name field in Add competitor is selected")
     public void theNameFieldInAddCompetitorIsSelected() {
-        WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("[data-testid='competitorNameInput']")));
-        nameField.click();
-
-        WebElement focusedField = driver.switchTo().activeElement();
-
-        assertEquals(nameField, focusedField);
+        driver.findElement(By.cssSelector("#name")).click();
     }
 
-    @Then("the name should be visible in the Standings section")
-    public void theNameShouldBeVisibleInTheStandingsSection() {
-        tearDown();
-    }
 
-    @And("a {string} has been entered into the Name field")
-    public void aHasBeenEnteredIntoTheNameField(String arg0) {
+    @And("the result {string} has been entered into the Result field")
+    public void aHasBeenEnteredIntoTheResultField(String result) {
+        WebElement resultField = driver.findElement(By.cssSelector("#raw"));
+        resultField.clear();
+        resultField.sendKeys(result);
 
     }
 
-    @And("a {string} has been entered into the Result field")
-    public void aHasBeenEnteredIntoTheResultField(String arg0) {
+    @And("the event {string} has been selected in the event field")
+    public void theEventMHasBeenSelectedInTheEventField(String event) {
+        Select dropdown = new Select(driver.findElement(By.cssSelector("#event")));
+        dropdown.selectByValue(event);
 
     }
 
-    @Then("the name and score is visible in Standings")
-    public void theNameAndScoreIsVisibleInStandings() {
-        tearDown();
+    @When("user clicks the Save score button")
+    public void userClicksSaveScoreButton() {
+        driver.findElement(By.cssSelector("#save")).click();
     }
 
-    @When("user has entered a {string} and {string}")
-    public void userHasEnteredAAnd(String arg0, String arg1) {
+    @Then("score {string} is visible in Standings")
+    public void scoreIsVisibleInStandings(String points) {
+        By standingsSelector = By.cssSelector("#standings");
+        wait.until( ExpectedConditions.textToBePresentInElementLocated(standingsSelector, points) );
+        String tableText = driver.findElement(standingsSelector).getText(); Assertions.assertTrue(tableText.contains(points));
+
+            }
+
+    @And("user clicks the {string} button")
+    public void userClicksTheButton(String arg0) {
+        WebElement exportButton = wait.until( ExpectedConditions.elementToBeClickable(By.cssSelector("#export")) );
+        exportButton.click();
+    }
+
+    @Then("the CSV file is exported and downloaded")
+    public void theCSVFileIsExportedAndDownloaded() {
+        File downloadDir = new File(System.getProperty("user.home") + "/Downloads");
+        File[] files = downloadDir.listFiles((dir, name) -> name.startsWith("results") && name.endsWith(".csv") );
+        Assertions.assertNotNull(files); Assertions.assertTrue(files.length > 0);
 
     }
 
-    @Then("the result file is exported")
-    public void theResultFileIsExported() {
 
-    }
-
-    @And("available to download result file")
-    public void availableToDownloadResultFile() {
-        tearDown();
-    }
 
 
     // PHYLLIS - - - - - - - - - - - - - - - - - - -  - - - - - - - - -
@@ -167,33 +182,34 @@ public class MyStepdefs {
     }
 
 
-
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
 
-    @Then("a user friendly message of rejection is shown")
-    public void aUserFriendlyMessageOfRejectionIsShown() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    @And("a {string} has been selected from the dropdown")
+    public void aHasBeenSelectedFromTheDropdown(String event) {
+
+        Select dropdown = new Select(driver.findElement(By.cssSelector("#event")));
+        dropdown.selectByValue(event);
     }
 
-    @And("an unreasonable {string} has been entered into the name field")
-    public void anUnreasonableHasBeenEnteredIntoTheNameField(String name) {
+    @Then("the correct {string} are presented for each event")
+    public void theCorrectArePresentedForEachEvent(String points) {
+        By standingsSelector = By.cssSelector("#standings");
 
-        driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"))
-                .sendKeys(name);
-        WebElement addBtn = driver.findElement(By.cssSelector("[data-testid='addCompetitorBtn']"));
-        addBtn.click();
-        addBtn.sendKeys(DOWN);
-        WebElement table = driver.findElement(By.cssSelector("[data-testid='standingsTable']"));
-        String tableText = table.getText();
-        assertTrue(tableText.contains(name));
+        wait.until(
+                ExpectedConditions.textToBePresentInElementLocated(standingsSelector, points)
+        );
 
+        String tableText = driver.findElement(standingsSelector).getText();
+        Assertions.assertTrue(tableText.contains(points));
     }
+
+
+
+
     // KIM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 
     // OSKAR - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
 
-   
 
     // SAM - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - -
 }
