@@ -88,6 +88,7 @@ public class MyStepdefs {
         );
         String tableText = driver.findElement(By.cssSelector("#standings")).getText();
         Assertions.assertTrue(tableText.contains(name));
+        tearDown();
     }
 
     @And("the name field in Add competitor is selected")
@@ -121,7 +122,7 @@ public class MyStepdefs {
         By standingsSelector = By.cssSelector("#standings");
         wait.until( ExpectedConditions.textToBePresentInElementLocated(standingsSelector, points) );
         String tableText = driver.findElement(standingsSelector).getText(); Assertions.assertTrue(tableText.contains(points));
-
+        tearDown();
             }
 
     @And("user clicks the {string} button")
@@ -135,7 +136,7 @@ public class MyStepdefs {
         File downloadDir = new File(System.getProperty("user.home") + "/Downloads");
         File[] files = downloadDir.listFiles((dir, name) -> name.startsWith("results") && name.endsWith(".csv") );
         Assertions.assertNotNull(files); Assertions.assertTrue(files.length > 0);
-
+        tearDown();
     }
 
 
