@@ -45,7 +45,7 @@ Scenario: Calculating points for a specific event
   Scenario: Handling failed score entry
   Given the user is on the calculator page
   And "Anna" is entered in the result name field
-  And a non-numeric value "abc" is entered in the resul field
+  And a non-numeric value "abc" is entered in the result field
   When user clicks the "Save score" button
   Then an error message "Score failed" should be displayed
 

@@ -123,15 +123,12 @@ public class MyStepdefs {
 
     @Given("the user is on the calculator page")
     public void theUserIsOnTheCalculatorPage() {
-        //navigerar till den lokala webbsidan
         driver.get(baseUrl);
-        //Väntar tills h1-rubriken syns så vi vet att sidan är laddad
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
     }
 
     @And("{string} is selected from the event dropdown")
     public void isSelectedFromTheEventDropdown(String eventLabel) {
-        // id="event" i html dropdown
         WebElement dropdown = driver.findElement(By.id("event"));
         //Jag skickar in 100m (s) till fältet
         dropdown.sendKeys(eventLabel);
@@ -148,34 +145,40 @@ public class MyStepdefs {
 
     @When("user clicks the {string} button")
     public void userClicksTheButton(String buttonText) {
-        // Write code here that turns the phrase above into concrete actions
         WebElement btn = driver.findElement(By.xpath
                 ("//button[contains(text(), '" + buttonText + "')]"));
         btn.click();
     }
 
     @Then("the message area should show {string}")
-    public void theMessageAreaShouldShow(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void theMessageAreaShouldShow(String expectedMessage) {
+        // 1. Vänta på att meddelandet dyker upp
+        WebElement messageArea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("msg")));
+        String actualMessage = messageArea.getText();
+        assertTrue(actualMessage.contains(expectedMessage),
+                "Hittade inte förväntat meddelande! Skulle vara: " + expectedMessage + " men var: " + actualMessage);
     }
 
     @And("{string} is entered in the result name field")
-    public void isEnteredInTheResultNameField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void isEnteredInTheResultNameField(String name) {
+        WebElement nameField = driver.findElement(By.cssSelector("[data-testid='competitorNameInput']"));
+        nameField.clear();
+        nameField.sendKeys(name);
     }
 
     @And("a non-numeric value {string} is entered in the result field")
-    public void aNonNumericValueIsEnteredInTheResulField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void aNonNumericValueIsEnteredInTheResulField(String value) {
+        WebElement field = driver.findElement(By.cssSelector("[data-testid='rawInput']"));
+        field.clear();
+        field.sendKeys(value);
     }
 
     @Then("an error message {string} should be displayed")
-    public void anErrorMessageShouldBeDisplayed(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void anErrorMessageShouldBeDisplayed(String errorMessage) {
+        WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("msg")));
+        String actualMessage = errorElement.getText();
+        assertTrue(actualMessage.contains(errorMessage),
+                "Förväntade felmeddelande '" + errorMessage + "' men hittade: '" + actualMessage + "'");
     }
 
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
