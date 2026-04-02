@@ -53,16 +53,16 @@ Feature: In the web application, key tasks like adding competitors,
   # PHYLLIS - - - - - - - - - - - - - - - - - - - - - - - - - -
 Scenario: Calculating points for a specific event
   Given the user is on the calculator page
-  And "100m (s)" is selected from the event dropdown
+  And "100m" is selected from the event dropdown
   And the result "10.55" is entered in the result field
-  When user clicks the "Save score" button
+  When user clicks the "Calculate Score" button
   Then the message area should show "Saved"
 
   Scenario: Handling failed score entry
   Given the user is on the calculator page
   And "Anna" is entered in the result name field
-  And a non-numeric value "abc" is entered in the resul field
-  When user clicks the "Save score" button
+  And a non-numeric value "abc" is entered in the result field
+  When user clicks the "Calculate Score" button
   Then an error message "Score failed" should be displayed
 
   # SAM - - - - - - - - - - - - - - - - - - - - - - - - - - - -

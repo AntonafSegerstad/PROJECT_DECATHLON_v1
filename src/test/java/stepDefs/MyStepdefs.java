@@ -130,42 +130,50 @@ public class MyStepdefs {
 
     @Given("the user is on the calculator page")
     public void theUserIsOnTheCalculatorPage() {
-        // Write code here that turns the phrase above into concrete actions
+        driver.get(baseUrl);
+
     }
 
     @And("{string} is selected from the event dropdown")
-    public void isSelectedFromTheEventDropdown(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
+    public void isSelectedFromTheEventDropdown(String eventLabel) {
+        WebElement dropdown = driver.findElement(By.name("disciplineBox"));
+        dropdown.sendKeys(eventLabel);
     }
 
     @And("the result {string} is entered in the result field")
-    public void theResultIsEnteredInTheResultField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-
+    public void theResultIsEnteredInTheResultField(String score) {
+        WebElement resField = driver.findElement(By.name("resultField"));
+        resField.clear();
+        resField.sendKeys(score);
     }
 
+
     @Then("the message area should show {string}")
-    public void theMessageAreaShouldShow(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
+    public void theMessageAreaShouldShow(String expectedMessage) {
+        WebElement messageArea = driver.findElement(By.id("message")); // Antaget ID
+        String actualMessage = messageArea.getText();
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @And("{string} is entered in the result name field")
-    public void isEnteredInTheResultNameField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-
+    public void isEnteredInTheResultNameField(String name) {
+        WebElement nameField = driver.findElement(By.id("name2"));
+        nameField.clear();
+        nameField.sendKeys(name);
     }
 
     @And("a non-numeric value {string} is entered in the result field")
-    public void aNonNumericValueIsEnteredInTheResulField(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-
+    public void aNonNumericValueIsEnteredInTheResulField(String value) {
+        WebElement field = driver.findElement(By.id("score"));
+        field.clear();
+        field.sendKeys(value);
     }
 
     @Then("an error message {string} should be displayed")
-    public void anErrorMessageShouldBeDisplayed(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
+    public void anErrorMessageShouldBeDisplayed(String errorMessage) {
+        WebElement errorElement = driver.findElement(By.id("error")); // Antaget ID
+        assertTrue(errorElement.getText().contains(errorMessage));
     }
-
 
 
     // ANTON - - - - - - - - - - - - - - - - - - -  - - - - - - - - - -
@@ -173,7 +181,7 @@ public class MyStepdefs {
     @Then("a user friendly message of rejection is shown")
     public void aUserFriendlyMessageOfRejectionIsShown() {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
     }
 
     @And("an unreasonable {string} has been entered into the name field")
