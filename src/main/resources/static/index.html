@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Decathlon Web MVP</title>
     <style>
-    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    .row { display: flex; gap: .5rem; align-items: center; margin-bottom: .5rem; flex-wrap: wrap; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #eee; padding: .5rem; text-align: left; }
-    #error { color: #b00020; }
-  </style>
+        body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        .row { display: flex; gap: .5rem; align-items: center; margin-bottom: .5rem; flex-wrap: wrap; }
+        .card { border: 1px solid #ddd; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #eee; padding: .5rem; text-align: left; }
+        #error { color: #b00020; }
+    </style>
 </head>
 <body>
-<h1>Decathlon Web MVP</h1>
+<h1>Track and Field Web MVP</h1>
+
+<div class="card">
+    <h2>Competition</h2>
+    <div class="row">
+        <label for="mode">Mode</label>
+        <select id="mode">
+            <option value="decathlon">Decathlon</option>
+            <option value="heptathlon">Heptathlon</option>
+        </select>
+    </div>
+</div>
 
 <div class="card">
     <h2>Add competitor</h2>
@@ -27,17 +38,23 @@
 </div>
 
 <div class="card">
+    <h2>Edit competitor</h2>
+    <div class="row">
+        <label for="oldName">Old name</label>
+        <input id="oldName" placeholder="current name" />
+        <label for="newName">New name</label>
+        <input id="newName" placeholder="new name" />
+        <button id="edit" type="button">Edit competitor</button>
+    </div>
+</div>
+
+<div class="card">
     <h2>Enter result</h2>
     <div class="row">
         <label for="name2">Name</label>
         <input id="name2" placeholder="same as above" />
         <label for="event">Event</label>
-        <select id="event" data-testid="eventSelect">
-            <option value="100m">100m (s)</option>
-            <option value="longJump">Long Jump (cm)</option>
-            <option value="shotPut">Shot Put (m)</option>
-            <option value="400m">400m (s)</option>
-        </select>
+        <select id="event" data-testid="eventSelect"></select>
         <label for="raw">Result</label>
         <input id="raw" data-testid="rawInput" type="number" step="0.01" />
         <button id="save" data-testid="saveScoreBtn">Save score</button>
@@ -49,14 +66,7 @@
     <h2>Standings</h2>
     <table>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>100m</th>
-            <th>Long Jump</th>
-            <th>Shot Put</th>
-            <th>400m</th>
-            <th>Total</th>
-        </tr>
+        <tr id="standingsHead"></tr>
         </thead>
         <tbody id="standings" data-testid="standingsTable"></tbody>
     </table>
