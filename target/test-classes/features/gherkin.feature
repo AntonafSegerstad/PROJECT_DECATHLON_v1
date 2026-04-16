@@ -53,7 +53,7 @@ Feature: In the web application, key tasks like adding competitors,
       | 1500m            | 200    | 1268   |
 
 
-      # KIM - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      # KIM - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
   # OSKAR - - - - - - - - - - - - - - - - - - - - - - - - - - -
