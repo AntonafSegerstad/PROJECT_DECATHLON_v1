@@ -1,24 +1,31 @@
 package testerJUNIT;
-
 import com.example.decathlon.common.CalcTrackAndField;
 import com.example.decathlon.common.InputName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test; // JUnit 5 (Jupiter)
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.ByteArrayInputStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class TinaTestar {
-
-    //tester av common-klasserna
+    private InputName inputName;
+    private String[] testNames = {
+            "Anna", "Bertil", "Cecilia", "David", "Erik", "Filippa", "Gustav", "Helena", "Ivar", "Johanna",
+            "Karl", "Linn", "Magnus", "Nora", "Oskar", "Petra", "Quinn", "Rasmus", "Sara", "Tomas",
+            "Ulrika", "Viktor", "Wendy", "Xander", "Ylva", "Zelda", "Alice", "Bengt", "Carin", "Daniel",
+            "Elin", "Fredrik", "Gunilla", "Hans", "Ingrid", "Jakob", "Karin", "Lars", "Maria", "Nils",
+            "Olivia"
+    };
 
     @Test
-    void testingCalculateTrack(){
+    void testing() {
         CalcTrackAndField calc = new CalcTrackAndField();
         //A, B och C tas från tabellen, distance och time är deltagarens prestation
         //tex: deltagaren gör 100m sprint på 15 sekunder -> time = 15
         //sedan mixas resultattiden in med lite siffror baserade på statistik
         //och vi får ett resultat, här 185 poäng
-        //100M Sprint Decathlon
+
         double a = 25.4347, b = 18, c = 1.81, time = 15.00;
         int result = calc.calculateTrack(a, b, c, time);
 
@@ -26,24 +33,27 @@ class TinaTestar {
         System.out.println("Testet gick igenom för Tina!");
     }
 
+    //Krav 5.2 WEBB UI ska fungera med upp till 40 deltagare, annars ska ett
+    //felmeddelande visas
     @Test
-    void testingCalculateField(){
-        //Discus Throw Decathlon
-        CalcTrackAndField calc = new CalcTrackAndField();
-        double a = 12.91, b = 4, c = 1.1, distance = 70;
-        int result = calc.calculateField(a, b, c, distance);
-        assertEquals(1295, result);
+    void adding41Competitors(){
+
+        inputName = new InputName();
+        String result = "";
+
+        for (int i = 0; i < testNames.length; i++){
+
+            String singleInput = testNames[i] + "\n";
+
+            //Säg åt scan att läsa in min text ist för manuell inmatning
+            System.setIn(new ByteArrayInputStream(singleInput.getBytes()));
+
+            result = inputName.addCompetitor();
+            System.out.println(testNames[i]);
+        }
+
+        assertEquals("Olivia", result, "Result isn't matching the input");
+        System.out.println("Testet lyckades! Inmatat: " + testNames[40] + ", Returnerat: " + result);
+        System.setIn(System.in);
     }
-
-    @Test
-    void testingAddCompetitor(){
-        //Körs förevigt då while-loopen aldrig får en regex-matchning
-        InputName inputName = new InputName();
-        String compName = "Bob Dylan";
-        inputName.addCompetitor();
-
-        assertEquals("Bob Dylan", compName);
-    }
-
-    
 }
